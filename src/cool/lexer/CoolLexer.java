@@ -1,6 +1,7 @@
 // Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/lexer/CoolLexer.g4 by ANTLR 4.9.1
 
     package cool.lexer;
+    // TODO you might have to import the string builder here
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;
@@ -142,7 +143,34 @@ public class CoolLexer extends Lexer {
 		switch (actionIndex) {
 		case 0:
 
+			    String text = getText();
+			    var newText = new StringBuilder();
 
+			    // trim the surrounding ""
+			    text = text.substring(1, text.length() - 1);
+
+			    var i = 0;
+			    int j = text.indexOf('\\');
+
+			    while (j != -1) {
+			        char notEscapedChar = text.charAt(j + 1);
+			        char escapedChar = switch (notEscapedChar) {
+			            case 'n' -> '\n';
+			            case 'b' -> '\b';
+			            case 't' -> '\t';
+			            case 'f' -> '\f';
+			            default -> notEscapedChar; // case '\\' is treated here
+			        };
+
+			        newText.append(text, i, j);
+			        newText.append(escapedChar);
+
+			        i = j + 2;
+			        j = text.indexOf('\\', i);
+			    }
+
+			    newText.append(text, i, text.length());
+			    setText(newText.toString());
 
 			break;
 		}

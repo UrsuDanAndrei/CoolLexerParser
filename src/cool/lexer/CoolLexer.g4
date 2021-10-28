@@ -4,6 +4,7 @@ tokens { ERROR }
 
 @header{
     package cool.lexer;
+    // TODO you might have to import the string builder here
 }
 
 @members{    
@@ -103,9 +104,35 @@ NEW : N E W;
 INT : DIGIT+;
 BOOL : ('t' R U E) | ('f' A L S E);
 
-// TODO parse the string as they want you to
-STRING : '"' ('\\"' | .)*? '"' {
+STRING : '"' ('\\"' | . )*? '"' {
+    String text = getText();
+    var newText = new StringBuilder();
 
+    // trim the surrounding ""
+    text = text.substring(1, text.length() - 1);
+
+    var i = 0;
+    int j = text.indexOf('\\');
+
+    while (j != -1) {
+        char notEscapedChar = text.charAt(j + 1);
+        char escapedChar = switch (notEscapedChar) {
+            case 'n' -> '\n';
+            case 'b' -> '\b';
+            case 't' -> '\t';
+            case 'f' -> '\f';
+            default -> notEscapedChar; // case '\\' is treated here
+        };
+
+        newText.append(text, i, j);
+        newText.append(escapedChar);
+
+        i = j + 2;
+        j = text.indexOf('\\', i);
+    }
+
+    newText.append(text, i, text.length());
+    setText(newText.toString);
 };
 
 
