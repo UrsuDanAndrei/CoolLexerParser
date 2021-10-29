@@ -20,7 +20,10 @@ fragment UPPER_LETTER : [A-Z];
 fragment LOWER_LETTER : [a-z];
 fragment DIGITS : DIGIT+;
 fragment NEW_LINE : '\r'? '\n';
-
+fragment ANY_BUT_STAR_RPAREN
+                             : '*' ~')'
+                             | ~'*'
+                             ;
 fragment A : 'a' | 'A';
 fragment C : 'c' | 'C';
 fragment D : 'd' | 'D';
@@ -42,8 +45,9 @@ fragment Y : 'y' | 'Y';
 
 
 // separators
-SEMI : ';';
 COMMA : ',';
+COLON : ':';
+SEMI : ';';
 
 // parenthesis
 LPAREN : '(';
@@ -54,7 +58,7 @@ LBRACE : '{';
 RBRACE : '}';
 
 // arithmethic operations
-TILDE: '~';
+TILDE : '~';
 PLUS : '+';
 MINUS : '-';
 MULT : '*';
@@ -68,8 +72,8 @@ LE : '<=';
 ISVOID : I S V O I D;
 
 // miscellaneous operators
-DOT: '.';
-AT: '@';
+DOT : '.';
+AT : '@';
 ASSIGN : '<-';
 
 
@@ -104,14 +108,28 @@ NEW : N E W;
 INT : DIGIT+;
 BOOL : ('t' R U E) | ('f' A L S E);
 
-STRING : '"' ('\\"' | . )*? '"' {
+
+// string
+STRING_UNTERMINATED : '"' ('\\\\' | '\\"' | ~'"')*? '\n' {
+    raiseError("Unterminated string constant");
+};
+
+STRING_WITH_NULL : '"' ('\\\\' | '\\"' | ~["\n])*? '\u0000' .*? '"' {
+    raiseError("String contains null character");
+};
+
+STRING_WITH_EOF : '"' ('\\\\' | '\\"' | ~["\n])*? EOF {
+    raiseError("EOF in string constant");
+};
+
+STRING : '"' ('\\\\' | '\\"' | ~["\n])*? '"' {
     String text = getText();
     var newText = new StringBuilder();
 
     // trim the surrounding ""
     text = text.substring(1, text.length() - 1);
 
-    var i = 0;
+    int i = 0;
     int j = text.indexOf('\\');
 
     while (j != -1) {
@@ -132,7 +150,12 @@ STRING : '"' ('\\"' | . )*? '"' {
     }
 
     newText.append(text, i, text.length());
-    setText(newText.toString);
+
+    if (newText.length() <= 1024) {
+        setText(newText.toString());
+    } else {
+        raiseError("String constant too long");
+    }
 };
 
 
@@ -140,14 +163,23 @@ STRING : '"' ('\\"' | . )*? '"' {
 TYPE : UPPER_LETTER (UPPER_LETTER | LOWER_LETTER | DIGIT | '_')*;
 
 // identifiers
-SELF: 'self';
-SELF_TYPE: 'SELF_TYPE';
+SELF : 'self';
+SELF_TYPE : 'SELF_TYPE';
 
 ID : LOWER_LETTER (UPPER_LETTER | LOWER_LETTER | DIGIT | '_')*;
 
 
 // comments
 LINE_COMMENT : '--' .*? (NEW_LINE | EOF) -> skip;
+
+BLOCK_COMMENT_END_WITHOUT_START : '*)' {
+    raiseError("Unmatched *)");
+};
+
+BLOCK_COMMENT_WITH_EOF : '(*' (BLOCK_COMMENT | ANY_BUT_STAR_RPAREN)* '*'? EOF {
+    raiseError("EOF in comment");
+};
+
 BLOCK_COMMENT : '(*' (BLOCK_COMMENT | .)*? '*)' -> skip;
 
 // whitespaces
