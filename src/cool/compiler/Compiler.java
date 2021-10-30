@@ -46,6 +46,7 @@ public class Compiler {
                 tokenStream.setTokenSource(lexer);
 
             /**********************************************************************************************************/
+            /*
             // Test lexer only.
             tokenStream.fill();
             List<Token> tokens = tokenStream.getTokens();
@@ -58,7 +59,7 @@ public class Compiler {
             });
 
             System.exit(0);
-
+            */
             /**********************************************************************************************************/
 
             
@@ -124,7 +125,8 @@ public class Compiler {
             System.err.println("Compilation halted");
             return;
         }
-        
+
         // TODO Print tree
+
     }
 }

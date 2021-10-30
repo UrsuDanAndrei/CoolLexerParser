@@ -58,7 +58,7 @@ LBRACE : '{';
 RBRACE : '}';
 
 // arithmethic operations
-TILDE : '~';
+NEG : '~';
 PLUS : '+';
 MINUS : '-';
 MULT : '*';
@@ -162,10 +162,7 @@ STRING : '"' ('\\\\' | '\\"' | ~["\n])*? '"' {
 // type
 TYPE : UPPER_LETTER (UPPER_LETTER | LOWER_LETTER | DIGIT | '_')*;
 
-// identifiers
-SELF : 'self';
-SELF_TYPE : 'SELF_TYPE';
-
+// identifier
 ID : LOWER_LETTER (UPPER_LETTER | LOWER_LETTER | DIGIT | '_')*;
 
 
@@ -184,3 +181,7 @@ BLOCK_COMMENT : '(*' (BLOCK_COMMENT | .)*? '*)' -> skip;
 
 // whitespaces
 WS : [ \n\f\r\t]+ -> skip;
+
+INVALID_CHAR: [!#$%^&|?] {
+    raiseError("Invalid character: " + getText());
+};
