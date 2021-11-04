@@ -1,7 +1,6 @@
 // Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/lexer/CoolLexer.g4 by ANTLR 4.9.1
 
     package cool.lexer;
-    // TODO you might have to import the string builder here
 
 import org.antlr.v4.runtime.Lexer;
 import org.antlr.v4.runtime.CharStream;

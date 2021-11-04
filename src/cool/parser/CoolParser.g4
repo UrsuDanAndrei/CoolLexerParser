@@ -10,37 +10,41 @@ options {
 
 program : (coolClass SEMI)+ EOF;
 
-coolClass : CLASS TYPE (INHERITS TYPE)? LBRACE (feature SEMI)* RBRACE;
+coolClass : CLASS id=TYPE (INHERITS parentClass=TYPE)? LBRACE (feature SEMI)* RBRACE;
 
 feature
-    : ID COLON TYPE (ASSIGN expr)?                                                  # attribute
-    | ID LPAREN ( | formal (COMMA formal)*) RPAREN COLON TYPE LBRACE expr RBRACE    # method
+    : id=ID COLON type=TYPE (ASSIGN value=expr)?                                                                # attribute
+    | id=ID LPAREN ( | formal (COMMA formal)*) RPAREN COLON returnType=TYPE LBRACE body=expr RBRACE             # method
     ;
 
-formal : ID COLON TYPE;
+formal : id=ID COLON type=TYPE;
 
 expr
-    : IF cond=expr THEN thenBr=expr ELSE elseBr=expr FI                                         # if
-    | WHILE cond=expr LOOP body=expr POOL                                                       # while
-    | LET ID COLON TYPE (ASSIGN expr)? (COMMA ID COLON TYPE (ASSIGN expr)?)* IN body=expr       # let
-    | CASE toEvaluated=expr OF (ID COLON TYPE CONNECTOR expr SEMI)+ ESAC                        # case
+    : IF cond=expr THEN thenBr=expr ELSE elseBr=expr FI                                                         # if
+    | WHILE cond=expr LOOP body=expr POOL                                                                       # while
+    | LET localVariable (COMMA localVariable)* IN body=expr                                                     # let
+    | CASE toEvaluated=expr OF (caseBranch SEMI)+ ESAC                                                          # case
 
-    | LBRACE (expr SEMI)+ RBRACE                                                                # block
+    | LBRACE (expr SEMI)+ RBRACE                                                                                # block
 
-    | caller=expr (AT TYPE)? DOT ID LPAREN ( | expr (COMMA expr)*) RPAREN                       # explicitDispatch
-    | ID LPAREN ( | expr (COMMA expr)*) RPAREN                                                  # implicitDispatch
+    | caller=expr (AT classContext=TYPE)? DOT id=ID LPAREN ( | args+=expr (COMMA args+=expr)*) RPAREN           # explicitDispatch
+    | id=ID LPAREN ( | args+=expr (COMMA args+=expr)*) RPAREN                                                   # implicitDispatch
 
-    | LPAREN expr RPAREN                                                                        # parens
-    | NEG expr                                                                                  # neg
-    | ISVOID expr                                                                               # isvoid
-    | left=expr (MULT | DIV) right=expr                                                         # multDiv
-    | left=expr (PLUS | MINUS) right=expr                                                       # plusMinus
-    | left=expr (EQUAL LT LE) right=expr                                                        # compare
-    | NOT expr                                                                                  # not
+    | LPAREN expr RPAREN                                                                                        # parens
+    | operation=NEG operand=expr                                                                                # neg
+    | operation=ISVOID operand=expr                                                                             # isvoid
+    | leftOperand=expr operation=(MULT | DIV) rightOperand=expr                                                 # multDiv
+    | leftOperand=expr operation=(PLUS | MINUS) rightOperand=expr                                               # plusMinus
+    | leftOperand=expr operation=(EQUAL | LT | LE) rightOperand=expr                                            # compare
+    | operation=NOT operand=expr                                                                                # not
 
-    | NEW TYPE                                                                                  # new
-    | ID                                                                                        # id
-    | INT                                                                                       # int
-    | STRING                                                                                    # string
-    | BOOL                                                                                      # bool
+    | NEW type=TYPE                                                                                             # new
+    | ID                                                                                                        # id
+    | INT                                                                                                       # int
+    | STRING                                                                                                    # string
+    | BOOL                                                                                                      # bool
     ;
+
+localVariable : id=ID COLON type=TYPE (ASSIGN value=expr)?;
+
+caseBranch : id=ID COLON type=TYPE CONNECTOR body=expr;

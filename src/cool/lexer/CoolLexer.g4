@@ -4,7 +4,6 @@ tokens { ERROR }
 
 @header{
     package cool.lexer;
-    // TODO you might have to import the string builder here
 }
 
 @members{    

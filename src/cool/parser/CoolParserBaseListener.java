@@ -301,6 +301,30 @@ public class CoolParserBaseListener implements CoolParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCase(CoolParser.CaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterLocalVariable(CoolParser.LocalVariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitLocalVariable(CoolParser.LocalVariableContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterCaseBranch(CoolParser.CaseBranchContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitCaseBranch(CoolParser.CaseBranchContext ctx) { }
 
 	/**
 	 * {@inheritDoc}
