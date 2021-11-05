@@ -22,7 +22,7 @@ formal : id=ID COLON type=TYPE;
 expr
     : IF cond=expr THEN thenBr=expr ELSE elseBr=expr FI                                                         # if
     | WHILE cond=expr LOOP body=expr POOL                                                                       # while
-    | LET localVariable (COMMA localVariable)* IN body=expr                                                     # let
+    | LET localVariable (COMMA localVariable)* IN (body=expr)                                                   # let
     | CASE toEvaluated=expr OF (caseBranch SEMI)+ ESAC                                                          # case
 
     | LBRACE (expr SEMI)+ RBRACE                                                                                # block
@@ -37,6 +37,7 @@ expr
     | leftOperand=expr operation=(PLUS | MINUS) rightOperand=expr                                               # plusMinus
     | leftOperand=expr operation=(EQUAL | LT | LE) rightOperand=expr                                            # compare
     | operation=NOT operand=expr                                                                                # not
+    | leftOperand=ID operation=ASSIGN rightOperand=expr                                                         # assign
 
     | NEW type=TYPE                                                                                             # new
     | ID                                                                                                        # id

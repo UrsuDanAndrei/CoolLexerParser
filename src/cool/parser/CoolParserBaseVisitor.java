@@ -1,4 +1,4 @@
-// Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/parser/CoolParser.g4 by ANTLR 4.9.1
+// Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/parser/CoolParser.g4 by ANTLR 4.9.2
 
     package cool.parser;
 
@@ -181,6 +181,13 @@ public class CoolParserBaseVisitor<T> extends AbstractParseTreeVisitor<T> implem
 	 * {@link #visitChildren} on {@code ctx}.</p>
 	 */
 	@Override public T visitCase(CoolParser.CaseContext ctx) { return visitChildren(ctx); }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation returns the result of calling
+	 * {@link #visitChildren} on {@code ctx}.</p>
+	 */
+	@Override public T visitAssign(CoolParser.AssignContext ctx) { return visitChildren(ctx); }
 	/**
 	 * {@inheritDoc}
 	 *

@@ -1,4 +1,4 @@
-// Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/parser/CoolParser.g4 by ANTLR 4.9.1
+// Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/parser/CoolParser.g4 by ANTLR 4.9.2
 
     package cool.parser;
 
@@ -301,6 +301,18 @@ public class CoolParserBaseListener implements CoolParserListener {
 	 * <p>The default implementation does nothing.</p>
 	 */
 	@Override public void exitCase(CoolParser.CaseContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void enterAssign(CoolParser.AssignContext ctx) { }
+	/**
+	 * {@inheritDoc}
+	 *
+	 * <p>The default implementation does nothing.</p>
+	 */
+	@Override public void exitAssign(CoolParser.AssignContext ctx) { }
 	/**
 	 * {@inheritDoc}
 	 *

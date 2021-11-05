@@ -1,4 +1,4 @@
-// Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/parser/CoolParser.g4 by ANTLR 4.9.1
+// Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/parser/CoolParser.g4 by ANTLR 4.9.2
 
     package cool.parser;
 
@@ -177,6 +177,13 @@ public interface CoolParserVisitor<T> extends ParseTreeVisitor<T> {
 	 * @return the visitor result
 	 */
 	T visitCase(CoolParser.CaseContext ctx);
+	/**
+	 * Visit a parse tree produced by the {@code assign}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 * @return the visitor result
+	 */
+	T visitAssign(CoolParser.AssignContext ctx);
 	/**
 	 * Visit a parse tree produced by {@link CoolParser#localVariable}.
 	 * @param ctx the parse tree

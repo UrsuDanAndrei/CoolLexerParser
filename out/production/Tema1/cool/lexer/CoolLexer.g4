@@ -4,7 +4,6 @@ tokens { ERROR }
 
 @header{
     package cool.lexer;
-    // TODO you might have to import the string builder here
 }
 
 @members{    
@@ -65,7 +64,7 @@ MULT : '*';
 DIV : '/';
 
 // logical operations
-EQUAL : '==';
+EQUAL : '=';
 NOT: 'not';
 LT : '<';
 LE : '<=';
@@ -110,19 +109,19 @@ BOOL : ('t' R U E) | ('f' A L S E);
 
 
 // string
-STRING_UNTERMINATED : '"' ('\\\\' | '\\"' | ~'"')*? '\n' {
+STRING_UNTERMINATED : '"' ('\\\\' | '\\"' | ('\\' NEW_LINE) | ~'"')*? NEW_LINE {
     raiseError("Unterminated string constant");
 };
 
-STRING_WITH_NULL : '"' ('\\\\' | '\\"' | ~["\n])*? '\u0000' .*? '"' {
+STRING_WITH_NULL : '"' ('\\\\' | '\\"' | ('\\' NEW_LINE) | ~["\n])*? '\u0000' .*? '"' {
     raiseError("String contains null character");
 };
 
-STRING_WITH_EOF : '"' ('\\\\' | '\\"' | ~["\n])*? EOF {
+STRING_WITH_EOF : '"' ('\\\\' | '\\"' | ('\\' NEW_LINE) | ~["\n])*? EOF {
     raiseError("EOF in string constant");
 };
 
-STRING : '"' ('\\\\' | '\\"' | ~["\n])*? '"' {
+STRING : '"' ('\\\\' | '\\"' | ('\\' NEW_LINE) | ~["\n])*? '"' {
     String text = getText();
     var newText = new StringBuilder();
 

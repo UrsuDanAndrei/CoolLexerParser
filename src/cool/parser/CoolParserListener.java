@@ -1,4 +1,4 @@
-// Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/parser/CoolParser.g4 by ANTLR 4.9.1
+// Generated from /home/dan/workspace/cpl/cpl_teme/cpl_tema1/Tema1/src/cool/parser/CoolParser.g4 by ANTLR 4.9.2
 
     package cool.parser;
 
@@ -291,6 +291,18 @@ public interface CoolParserListener extends ParseTreeListener {
 	 * @param ctx the parse tree
 	 */
 	void exitCase(CoolParser.CaseContext ctx);
+	/**
+	 * Enter a parse tree produced by the {@code assign}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void enterAssign(CoolParser.AssignContext ctx);
+	/**
+	 * Exit a parse tree produced by the {@code assign}
+	 * labeled alternative in {@link CoolParser#expr}.
+	 * @param ctx the parse tree
+	 */
+	void exitAssign(CoolParser.AssignContext ctx);
 	/**
 	 * Enter a parse tree produced by {@link CoolParser#localVariable}.
 	 * @param ctx the parse tree
